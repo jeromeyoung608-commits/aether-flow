@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; worker-src 'self'; connect-src 'self' http: https:; img-src 'self' data: blob:; font-src 'self'; style-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'" />
+  <meta name="description" content="Turn a messy CSV export into a Brief you can email and open by double-clicking. Parsed and stored only in your browser — zero uploads, zero accounts, zero telemetry." />
+  <meta name="color-scheme" content="dark light" />
+  <title>AetherFlow — from messy export to a shareable Brief · zero uploads</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%237c8cff'/%3E%3Cpath d='M14 42 32 14l18 28H14Zm9-6h18L32 24l-9 12Z' fill='%23080b10'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles/grid.css" />
+  <link rel="stylesheet" href="styles/theme-dark.css" />
+  <link rel="stylesheet" href="styles/app.css" />
+</head>
+<body>
+  <div id="app">
+    <header class="af-topbar">
+      <div class="af-brand">
+        <span class="af-mark">Æ</span>
+        <span class="af-brand-name">AetherFlow</span>
+        <span class="af-brand-sub">local-first reporting workspace</span>
+      </div>
+      <span class="af-badge af-badge-ok" id="egress-badge">● 0 outbound</span>
+      <span class="af-badge af-badge-ghost">Zero uploads · Zero accounts · Zero telemetry</span>
+      <span class="af-spacer"></span>
+      <button class="af-btn" id="btn-import">Import CSV</button>
+      <button class="af-btn" id="btn-backup" title="Portable backup with checksum">Backup</button>
+      <div class="af-dropdown" id="export-dropdown">
+        <button class="af-btn" id="btn-share" aria-haspopup="true" aria-expanded="false" title="Export current view or a privacy-safe report">Export ▾</button>
+        <div class="af-dropdown-menu" id="export-menu" hidden role="menu" aria-label="Export options">
+          <button type="button" data-export="csv" role="menuitem">Current view · CSV</button>
+          <button type="button" data-export="brief" role="menuitem">Brief · read-only HTML</button>
+          <span class="af-dd-sep"></span>
+          <button type="button" data-export="brief-md" role="menuitem">Brief · Copy as Markdown</button>
+          <button type="button" data-export="brief-email" role="menuitem">Brief · Email summary</button>
+          <button type="button" data-export="brief-masked" role="menuitem">Brief · Masked (share-safe)</button>
+          <span class="af-dd-sep"></span>
+          <button type="button" data-export="markdown" role="menuitem">Report · Markdown</button>
+          <button type="button" data-export="desensitized" role="menuitem">Desensitized · CSV</button>
+          <button type="button" data-export="email" role="menuitem">Copy email draft</button>
+          <span class="af-dd-note">Privacy-safe: no row value leaves the device.</span>
+        </div>
+      </div>
+      <button class="af-btn af-btn-kbd" id="btn-palette">Command <kbd id="palette-hint">⌘K</kbd></button>
+    </header>
+
+    <div class="af-intro">
+      <span class="af-intro-title">From messy export to a Brief your boss can open.</span>
+      <span class="af-intro-text">Drop the CSV, fix what needs fixing, export one read-only .html you can email or double-click. Parsed in a Web Worker, stored in IndexedDB, 100k rows at constant DOM cost — no server sees a byte.</span>
+      <span class="af-intro-chips">
+        <b>Dependencies 0</b><i></i><b>100k rows</b><i></i><b>Web Workers ×3</b><i></i><b>MIT</b>
+      </span>
+    </div>
+
+    <main id="workspace">
+      <section id="grid" aria-label="Data grid"></section>
+    </main>
+
+    <div class="af-hint">
+      <span><b>Drop</b> a CSV anywhere, or <b>double-click</b> empty space to choose a file.</span>
+      <span><kbd>⌘K</kbd> / <kbd>Ctrl K</kbd> command palette</span>
+      <span><kbd>↑ ↓ ← →</kbd> navigate · <kbd>Enter</kbd> edit · <kbd>Esc</kbd> cancel</span>
+      <span>Click header to sort · <kbd>Shift</kbd> for multi-sort · double-click column edge to auto-fit</span>
+    </div>
+
+    <div id="drop-overlay" aria-hidden="true">
+      <div class="af-drop-card">
+        <div class="af-drop-icon">↓</div>
+        <strong>Drop local CSV files</strong>
+        <span>Parsed in a Worker · stored in IndexedDB · never uploaded</span>
+      </div>
+    </div>
+
+    <div id="boot-error" role="alert"></div>
+    <input type="file" id="file-input" accept=".csv,.tsv,.txt,text/csv" multiple hidden />
+    <input type="file" id="backup-input" accept=".aether,application/json" hidden />
+  </div>
+
+  <div class="af-watermark">ENGINE BY JEROME YOUNG · COMMERCIAL USE REQUIRES LICENSE</div>
+
+  <script type="module" src="./src/shell/app.js"></script>
+</body>
+</html>

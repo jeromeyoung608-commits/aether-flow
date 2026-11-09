@@ -1,0 +1,42 @@
+{
+  "name": "aether-flow",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A local-first file workspace that runs entirely in your browser. Zero dependencies, zero runtime network requests, 100k-row virtual grid, IndexedDB vault, worker-isolated insight, and an open extension SDK.",
+  "type": "module",
+  "main": "src/main.js",
+  "module": "src/main.js",
+  "exports": {
+    ".": { "import": "./src/main.js" },
+    "./sdk": { "import": "./src/sdk/index.js" },
+    "./storage": { "import": "./src/storage/idb.js" }
+  },
+  "files": [
+    "src", "styles", "index.html", "_headers", "server.js",
+    "README.md", "LICENSE", "CHANGELOG.md", "CONTRIBUTING.md", "SECURITY.md",
+    "docs", "examples", "customers/_template"
+  ],
+  "scripts": {
+    "serve": "node server.js",
+    "generate": "node data/generate.js 50000",
+    "check": "node scripts/check.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "audit": "node scripts/audit.mjs",
+    "build:rules": "node scripts/build-rules.mjs",
+    "verify": "npm run check && npm test && npm run audit"
+  },
+  "keywords": [
+    "local-first", "privacy", "indexeddb", "virtual-scroll", "vanilla-js",
+    "zero-dependency", "web-worker", "csv", "data-grid", "offline",
+    "edge-ai", "file-workspace", "no-backend"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OWNER/aether-flow.git"
+  },
+  "homepage": "https://OWNER.github.io/aether-flow/",
+  "bugs": { "url": "https://github.com/OWNER/aether-flow/issues" },
+  "engines": { "node": ">=18" },
+  "sideEffects": false
+}
